@@ -36,6 +36,22 @@ for (var i = 0; i < catImages.length; i++) {
     document.querySelector('.list').append(catList);
 };
 
+function initialCat () {
+    const signature = document.createElement('p');
+        signature.classList.add('catName');
+        signature.innerText = catNames[0];
+        container.appendChild(signature);
+        const imgContainer = document.createElement('div');
+        imgContainer.innerHTML = '<img src="images/cat1.jpg" alt="Cat" class="catPicture">';
+        container.appendChild(imgContainer);  
+        const clickMessage = document.createElement('p');
+        clickMessage.classList.add('clickMessage0');
+        clickMessage.innerText = `You clicked this picture 0 times`;
+        container.appendChild(clickMessage);
+}
+
+initialCat();
+
 function respondToTheClick(e) {
     e.preventDefault();
     let catPicture = e.target;
