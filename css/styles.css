@@ -38,13 +38,14 @@ table {
 
 body {
     line-height: 1.2;
-    text-align: center;
+    /* text-align: center; */
 }
 
 h1 {
     font-size: 3em;
     margin: 10px;
     margin-bottom: 20px;
+    margin-left: 68px;
     color: rgb(160, 135, 118);
     display: inline-block;
 }
@@ -54,21 +55,33 @@ h1 {
     height: 400px;
 }
 
+.flexContainer {
+    display: flex;
+    /* align-items: center; */
+}
+
+.catList {
+    display: flex;
+    flex-flow: column nowrap;
+}
 .clickArticle {
     margin: 20px 0 20px 0;
 }
 
 .catList {
     list-style: none;
+    /* margin-top: 50px; */
+    margin-left: 50px;
 }
 
 .container {
-    margin-top: 20px;
+    margin-left: 40px;
 }
 
 ul li {
         background-color: #4CAF50; /* Green */
         border: 1px solid  rgb(11, 121, 14);
+        border-bottom: none;
         color: white;
         padding: 15px 32px;
         text-align: center;
@@ -77,9 +90,12 @@ ul li {
         font-size: 16px;
 }
 
+ul li:last-of-type {
+    border-bottom: 1px solid  rgb(11, 121, 14);
+}
+
 ul li:hover {
     background-color:   rgb(43, 129, 46); 
-    border: 1px solid  rgb(11, 121, 14);
     color: white;
 }
 
@@ -89,4 +105,13 @@ ul li:hover {
     font-size: 1.4em;
     text-transform: uppercase;
     margin-bottom: 20px;
+}
+
+.catListName {
+    color:  rgb(43, 129, 46);
+    font-weight: bold;
+    font-size: 1.4em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    margin-left: 72px;
 }
