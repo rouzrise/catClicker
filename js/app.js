@@ -10,20 +10,12 @@ var catNames = ['Vasya', 'Grey', 'Kitya', 'Murzik', 'Pushok'];
 var catImages = ['cat1', 'cat2', 'cat3', 'cat4', 'cat5'];
 var clickCount = [0, 0, 0, 0, 0];
 
-// Let's loop over the numbers in our array
 for (var i = 0; i < catImages.length; i++) {
 
     var catItem = document.createElement('li');
     catItem.innerText = `${catNames[i]}`;
     catList.appendChild(catItem);
 
-    // We're creating a DOM element for the number
-    // var elem = document.createElement('div');
-    // elem.textContent = num;
-    
-    // // signature.innerText = catNames[i];
-
-    // // ... and when we click, alert the value of `num`
     catItem.addEventListener('click', (function(iCopy) {
         return function() {
             container.innerHTML = '';
@@ -41,9 +33,24 @@ for (var i = 0; i < catImages.length; i++) {
         };
     })(i));
 
-    // finally, let's add this element to the document
     document.querySelector('.list').append(catList);
 };
+
+function respondToTheClick(e) {
+    e.preventDefault();
+    let catPicture = e.target;
+
+    for (var i = 0; i < clickCount.length; i++) {
+        if (catPicture.classList.contains('catPicture') === true && document.querySelector(`.clickMessage${i}`)) {
+            clickCount[i] = clickCount[i] + 1;
+            // debugger
+            var clickMessageI = document.querySelector(`.clickMessage${i}`);
+            clickMessageI.innerText = `You clicked this picture ${clickCount[i]} times`;
+        }
+    }
+};
+
+container.addEventListener('click', respondToTheClick);
 
 // function respondToTheClick(e) {
 //     e.preventDefault();
@@ -85,21 +92,7 @@ for (var i = 0; i < catImages.length; i++) {
 //     }
 // };
 
-function respondToTheClick(e) {
-    e.preventDefault();
-    let catPicture = e.target;
 
-    for (var i = 0; i < clickCount.length; i++) {
-        if (catPicture.classList.contains('catPicture') === true && document.querySelector(`.clickMessage${i}`)) {
-            clickCount[i] = clickCount[i] + 1;
-            // debugger
-            var clickMessageI = document.querySelector(`.clickMessage${i}`);
-            clickMessageI.innerText = `You clicked this picture ${clickCount[i]} times`;
-        }
-    }
-};
-
-container.addEventListener('click', respondToTheClick);
 
 // function createCatsGrid() {
 //     var catNames = ['Vasya', 'Grey'];

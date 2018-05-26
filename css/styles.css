@@ -20,6 +20,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 body {
     line-height: 1.2;
     font-family: 'Roboto Bold', sans-serif;
+    /* display: flex; */
 }
 ol { 
 	padding-left: 1.4em;
@@ -45,6 +46,7 @@ h1 {
     margin: 10px;
     margin-bottom: 20px;
     color: rgb(160, 135, 118);
+    display: inline-block;
 }
 
 .catPicture {
