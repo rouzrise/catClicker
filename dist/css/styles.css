@@ -57,25 +57,25 @@ h1 {
 
 .flexContainer {
     display: flex;
-    /* align-items: center; */
 }
 
-.catList {
+#catList {
     display: flex;
     flex-flow: column nowrap;
+    margin-left: 50px;
 }
 .clickArticle {
     margin: 20px 0 20px 0;
 }
-
+/* 
 .catList {
     list-style: none;
-    /* margin-top: 50px; */
-    margin-left: 50px;
-}
+    
+} */
 
 .container {
     margin-left: 40px;
+    display: flex;
 }
 
 ul li {
@@ -99,19 +99,20 @@ ul li:hover {
     color: white;
 }
 
-.catName {
-    color:  rgb(43, 129, 46);
-    font-weight: bold;
-    font-size: 1.4em;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-}
-
-.catListName {
+.partName {
     color:  rgb(43, 129, 46);
     font-weight: bold;
     font-size: 1.4em;
     text-transform: uppercase;
     margin-bottom: 20px;
     margin-left: 72px;
+}
+
+#catName {
+    color:  rgb(43, 129, 46);
+    font-weight: bold;
+    font-size: 1.4em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    margin-left: 0;
 }

@@ -1,141 +1,202 @@
-const container = document.querySelector('.container');
-var count = document.querySelector('.count');
-// count.innerText = clickCount;
+var model = {
+    cats: [
+        {
+            clickCount: 0,
+            catName: 'Vasya',
+            src: 'images/cat1.jpg'
+        },
+        {
+            clickCount: 0,
+            catName: 'Grey',
+            src: 'images/cat2.jpg'
+        },
+        {
+            clickCount: 0,
+            catName: 'Kitya',
+            src: 'images/cat3.jpg'
+        },
+        {
+            clickCount: 0,
+            catName: 'Murzik',
+            src: 'images/cat4.jpg'
+        },
+        {
+            clickCount: 0,
+            catName: 'Pushok',
+            src: 'images/cat5.jpg'
+        }
+    ],
 
-var nums = [1,2,3];
-
-var catList = document.createElement('ul');
-catList.classList.add('catList');
-var catNames = ['Vasya', 'Grey', 'Kitya', 'Murzik', 'Pushok'];
-var catImages = ['cat1', 'cat2', 'cat3', 'cat4', 'cat5'];
-var clickCount = [0, 0, 0, 0, 0];
-
-for (var i = 0; i < catImages.length; i++) {
-
-    var catItem = document.createElement('li');
-    catItem.innerText = `${catNames[i]}`;
-    catList.appendChild(catItem);
-
-    catItem.addEventListener('click', (function(iCopy) {
-        return function() {
-            container.innerHTML = '';
-            const signature = document.createElement('p');
-            signature.classList.add('catName');
-            signature.innerText = catNames[iCopy];
-            container.appendChild(signature);
-            const imgContainer = document.createElement('div');
-            imgContainer.innerHTML = `<img src="images/${catImages[iCopy]}.jpg" alt="Cat" class="catPicture">`;
-            container.appendChild(imgContainer);  
-            const clickMessage = document.createElement('p');
-            clickMessage.classList.add(`clickMessage${iCopy}`);
-            clickMessage.innerText = `You clicked this picture ${clickCount[iCopy]} times`;
-            container.appendChild(clickMessage); 
-        };
-    })(i));
-
-    document.querySelector('.list').append(catList);
+    currentCat: null
 };
 
-function initialCat () {
-    const signature = document.createElement('p');
-        signature.classList.add('catName');
-        signature.innerText = catNames[0];
-        container.appendChild(signature);
-        const imgContainer = document.createElement('div');
-        imgContainer.innerHTML = '<img src="images/cat1.jpg" alt="Cat" class="catPicture">';
-        container.appendChild(imgContainer);  
-        const clickMessage = document.createElement('p');
-        clickMessage.classList.add('clickMessage0');
-        clickMessage.innerText = `You clicked this picture 0 times`;
-        container.appendChild(clickMessage);
-}
+var octopus = {
+    init: function() {
+        
+        //устанавливает в качестве текущего кота - первого кота из списка модели
+        model.currentCat = model.cats[0];
+       
+        //запускает функцию инит для Вью списка котов и Вью текущего кота
+        catListView.init();
+        currentCatView.init();
+        
+    },
 
-initialCat();
+    getCurrentCat: function() {
+        return model.currentCat;
+    },
 
-function respondToTheClick(e) {
-    e.preventDefault();
-    let catPicture = e.target;
+    getCats: function() {
+        return model.cats;
+    },
 
-    for (var i = 0; i < clickCount.length; i++) {
-        if (catPicture.classList.contains('catPicture') === true && document.querySelector(`.clickMessage${i}`)) {
-            clickCount[i] = clickCount[i] + 1;
-            // debugger
-            var clickMessageI = document.querySelector(`.clickMessage${i}`);
-            clickMessageI.innerText = `You clicked this picture ${clickCount[i]} times`;
+    setCurrentCat: function(cat) {
+        model.currentCat = cat;
+    },
+
+    incrementCounter: function() {
+        model.currentCat.clickCount++;
+        currentCatView.render();
+    }
+
+};
+
+var currentCatView = {
+    init: function() {
+        this.cat = document.querySelector('#cat');
+        this.catName = document.querySelector('#catName');
+        this.catPicture = document.querySelector('.catPicture');
+        this.clickCount = document.querySelector('.clickMessage');
+        
+
+        //в самый первый раз мы присваиваем кэтпикче ивентлисенер - и этого достаточно;
+        this.catPicture.addEventListener('click', function() {
+            octopus.incrementCounter();
+        });
+
+        //в первый раз устанавливаем нужные значения для текущего currentCat
+        this.render();
+    },
+
+    render: function() {
+        ///////////при помощи октопуса присваиваем текущего кота из модели
+        var currentCat = octopus.getCurrentCat();
+
+        //присвоить в DOM кота свойства текущего кота из Модели
+        this.clickCount.textContent = currentCat.clickCount;
+        this.catName.textContent = currentCat.catName;
+        
+        this.catPicture.src = currentCat.src;
+    }
+    
+};
+
+var catListView = {
+    init: function() {
+        
+        this.catList = document.querySelector('#catList');
+
+        // впервые мы создаем этот лист (и один единственный раз)
+        this.render();
+    },
+
+    render: function() {
+        // debugger
+        var i, cat, elem;
+        /////////при помощи октопуса присваиваем переменной текущих котов всех котов из Модели
+        var cats = octopus.getCats();
+
+        //очищаем пространство
+        this.catList.innerHTML = '';
+
+        for (i = 0; i < cats.length; i++) {
+            cat = cats[i];
+            elem = document.createElement('li');
+            elem.textContent = cat.catName;
+
+            elem.addEventListener('click', (function(catCopy) {
+                return function() {
+                    ////в зону видимости добавляет кота из лупа:
+
+                    ///////устанавливает текущим котом кота из лупа при помощи октопуса
+                    octopus.setCurrentCat(catCopy);
+                    //добавляет в зону видимости все качества текущего кота 
+                    currentCatView.render();
+                };
+            })(cat));//при помощи call back
+
+            this.catList.appendChild(elem);
         }
     }
 };
 
-container.addEventListener('click', respondToTheClick);
+octopus.init();
 
-// function respondToTheClick(e) {
-//     e.preventDefault();
-//     let catPicture = e.target;
 
-//     if (catPicture.classList.contains('catPicture') === true && document.querySelector('.clickMessage0')) {
-//         clickCount[0] = clickCount[0] + 1;
-//         // debugger
-//         var clickMessage0 = document.querySelector('.clickMessage0');
-//         clickMessage0.innerText = `You clicked this picture ${clickCount[0]} times`;
-//     }
+// var container = document.querySelector('.container');
+// var count = document.querySelector('.count');
+// var catList = document.createElement('ul');
+// catList.classList.add('catList');
 
-//     else if (catPicture.classList.contains('catPicture') === true && document.querySelector('.clickMessage1')) {
-//         clickCount[1] = clickCount[1] + 1;
-//         // debugger
-//         var clickMessage1 = document.querySelector('.clickMessage1');
-//         clickMessage1.innerText = `You clicked this picture ${clickCount[1]} times`;
-//     }
 
-//     else if (catPicture.classList.contains('catPicture') === true && document.querySelector('.clickMessage2')) {
-//         clickCount[2] = clickCount[2] + 1;
-//         // debugger
-//         var clickMessage2 = document.querySelector('.clickMessage2');
-//         clickMessage2.innerText = `You clicked this picture ${clickCount[2]} times`;
-//     }
 
-//     else if (catPicture.classList.contains('catPicture') === true && document.querySelector('.clickMessage3')) {
-//         clickCount[3] = clickCount[3] + 1;
-//         // debugger
-//         var clickMessage3 = document.querySelector('.clickMessage3');
-//         clickMessage3.innerText = `You clicked this picture ${clickCount[3]} times`;
-//     }
+// var catNames = ['Vasya', 'Grey', 'Kitya', 'Murzik', 'Pushok'];
+// var catImages = ['cat1', 'cat2', 'cat3', 'cat4', 'cat5'];
+// var clickCount = [0, 0, 0, 0, 0];
 
-//     else if (catPicture.classList.contains('catPicture') === true && document.querySelector('.clickMessage4')) {
-//         clickCount[4] = clickCount[4] + 1;
-//         // debugger
-//         var clickMessage4 = document.querySelector('.clickMessage4');
-//         clickMessage4.innerText = `You clicked this picture ${clickCount[4]} times`;
-//     }
+// for (var i = 0; i < catImages.length; i++) {
+
+//     var catItem = document.createElement('li');
+//     catItem.innerText = `${catNames[i]}`;
+//     catList.appendChild(catItem);
+
+//     catItem.addEventListener('click', (function(iCopy) {
+//         return function() {
+//             container.innerHTML = '';
+//             const signature = document.createElement('p');
+//             signature.classList.add('catName');
+//             signature.innerText = catNames[iCopy];
+//             container.appendChild(signature);
+//             const imgContainer = document.createElement('div');
+//             imgContainer.innerHTML = `<img src="images/${catImages[iCopy]}.jpg" alt="Cat" class="catPicture">`;
+//             container.appendChild(imgContainer);  
+//             const clickMessage = document.createElement('p');
+//             clickMessage.classList.add(`clickMessage${iCopy}`);
+//             clickMessage.innerText = `You clicked this picture ${clickCount[iCopy]} times`;
+//             container.appendChild(clickMessage); 
+//         };
+//     })(i));
+
+//     document.querySelector('.list').append(catList);
 // };
 
-
-
-// function createCatsGrid() {
-//     var catNames = ['Vasya', 'Grey'];
-//     var catImages = ['cat1', 'cat2'];
-    
-//     for (let i = 0; i < catImages.length; i++) {
-//         const signature = document.createElement('p');
-//         signature.innerText = catNames[i];
+// function initialCat () {
+//     const signature = document.createElement('p');
+//         signature.classList.add('catName');
+//         signature.innerText = catNames[0];
 //         container.appendChild(signature);
 //         const imgContainer = document.createElement('div');
-//         imgContainer.innerHTML = `<img src="images/${catImages[i]}.jpg" alt="Cat" class="catPicture">`;
-//         container.appendChild(imgContainer);
-//     }
+//         imgContainer.innerHTML = '<img src="images/cat1.jpg" alt="Cat" class="catPicture">';
+//         container.appendChild(imgContainer);  
+//         const clickMessage = document.createElement('p');
+//         clickMessage.classList.add('clickMessage0');
+//         clickMessage.innerText = `You clicked this picture 0 times`;
+//         container.appendChild(clickMessage);
 // }
 
-// createCatsGrid();
-
-
+// initialCat();
 
 // function respondToTheClick(e) {
 //     e.preventDefault();
 //     let catPicture = e.target;
 
-//     // if none cards were open or one card was open before
-//     if (catPicture.classList.contains('catPicture') === true) {
-//         clickCount += 1;
-//         count.innerText = clickCount;
+//     for (var i = 0; i < clickCount.length; i++) {
+//         if (catPicture.classList.contains('catPicture') === true && document.querySelector(`.clickMessage${i}`)) {
+//             clickCount[i] = clickCount[i] + 1;
+//             // debugger
+//             var clickMessageI = document.querySelector(`.clickMessage${i}`);
+//             clickMessageI.innerText = `You clicked this picture ${clickCount[i]} times`;
+//         }
 //     }
 // };
 
