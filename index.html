@@ -12,30 +12,32 @@
 
 <h1>Cat Clicker</h1>
 <div class="flexContainer">
-<div class="list"> 
+    <div class="list"> 
         <p class="partName">Cats</p>
         <ul id ="catList"></ul>
-</div>  
+    </div>  
 
 
-<div class="container">
-        
-        <div id="cat">
-            <p id="catName" class="partName"></p>
-            <img class='catPicture' src="" alt="cat">
-            <div>You clicked this cat <span class="clickMessage"></span> times</div>
+    <div class="container">
             
-        </div>
+            <div id="cat">
+                <p id="catName" class="partName"></p>
+                <img class='catPicture' src="" alt="cat">
+                <div>You clicked this cat <span class="clickMessage"></span> times</div>
+                
+                <button type="button">Admin</button>
+                
+                <form>
+                    Name: <input type="text" name="name" value="" class="nameAdmin"><br>
+                    Img URL: <input type="text" name="imgURL" value="" class="urlAdmin" ><br>
+                    # clicks: <input type="text" name="numberClicks" value="" class="numberClicks"><br>
+                    <input type="submit" value="Save" class="Save">
+                    <input type="submit" value="Cancel" class="Cancel">
+                </form>
+            </div>     
+    </div>
 </div>
-<button type="button">Admin</button>
-    <form>
-        Name: <input type="text" name="name" value=""><br>
-        Img URL: <input type="text" name="imgURL" value=""><br>
-        # clicks: <input type="text" name="imgURL" value=""><br>
-        <input type="submit" value="Save">
-        <input type="submit" value="Cancel">
-    </form>
-</div>
+
 <!-- <span class="cat1"></span>
 <img src='images/cat1.jpg' alt='Cat' class="catPicture">
 <span class="cat2"></span>
