@@ -78,7 +78,10 @@ h1 {
     display: flex;
 }
 
-ul li {
+ul li, 
+.adminButton, 
+.cancelButton,
+.saveButton {
         background-color: #4CAF50; /* Green */
         border: 1px solid  rgb(11, 121, 14);
         border-bottom: none;
@@ -90,7 +93,10 @@ ul li {
         font-size: 16px;
 }
 
-ul li:last-of-type {
+ul li:last-of-type,
+.adminButton, 
+.cancelButton,
+.saveButton {
     border-bottom: 1px solid  rgb(11, 121, 14);
 }
 
@@ -115,8 +121,4 @@ ul li:hover {
     text-transform: uppercase;
     margin-bottom: 20px;
     margin-left: 0;
-}
-
-.hidden {
-    display: none;
 }
