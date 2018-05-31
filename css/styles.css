@@ -116,3 +116,7 @@ ul li:hover {
     margin-bottom: 20px;
     margin-left: 0;
 }
+
+.hidden {
+    display: none;
+}

@@ -3,31 +3,38 @@ var model = {
         {
             clickCount: 0,
             catName: 'Vasya',
-            src: 'images/cat1.jpg'
+            src: 'images/cat1.jpg',
+            status: 'hidden'
         },
         {
             clickCount: 0,
             catName: 'Grey',
-            src: 'images/cat2.jpg'
+            src: 'images/cat2.jpg',
+            status: 'hidden'
         },
         {
             clickCount: 0,
             catName: 'Kitya',
-            src: 'images/cat3.jpg'
+            src: 'images/cat3.jpg',
+            status: 'hidden'
         },
         {
             clickCount: 0,
             catName: 'Murzik',
-            src: 'images/cat4.jpg'
+            src: 'images/cat4.jpg',
+            status: 'hidden'
         },
         {
             clickCount: 0,
             catName: 'Pushok',
-            src: 'images/cat5.jpg'
+            src: 'images/cat5.jpg',
+            status: 'hidden'
         }
     ],
 
-    currentCat: null
+    currentCat: null,
+
+    adminStatus: false
 };
 
 var octopus = {
@@ -39,7 +46,8 @@ var octopus = {
         //запускает функцию инит для Вью списка котов и Вью текущего кота
         catListView.init();
         currentCatView.init();
-        
+        adminView.init();
+        adminView.hide();
     },
 
     getCurrentCat: function() {
@@ -57,7 +65,39 @@ var octopus = {
     incrementCounter: function() {
         model.currentCat.clickCount++;
         currentCatView.render();
+        //////////////////
+        adminView.render();
+    },
+
+    toggleAdminView: function() {
+        if (model.adminStatus === false) {
+            model.adminStatus = true;
+            // debugger
+            adminView.show();
+        }
+
+        else {
+            model.adminStatus = false;
+            adminView.hide();
+        }
+    },
+
+    saveAdminView: function() {
+    //    debugger
+        model.currentCat.catName = adminView.nameAdmin.value;
+        model.currentCat.src = adminView.urlAdmin.value;
+        model.currentCat.clickCount = adminView.numberClicksAdmin.value;
+        // adminView.reset();
+        currentCatView.render();
+        catListView.render();
+        adminView.reset();
+    },
+
+    cancelAdminView: function() {
+        adminView.hide();
     }
+
+
 
 };
 
@@ -67,6 +107,7 @@ var currentCatView = {
         this.catName = document.querySelector('#catName');
         this.catPicture = document.querySelector('.catPicture');
         this.clickCount = document.querySelector('.clickMessage');
+        this.adminStatus = document.querySelector('.adminForm');
         
 
         //в самый первый раз мы присваиваем кэтпикче ивентлисенер - и этого достаточно;
@@ -85,7 +126,6 @@ var currentCatView = {
         //присвоить в DOM кота свойства текущего кота из Модели
         this.clickCount.textContent = currentCat.clickCount;
         this.catName.textContent = currentCat.catName;
-        
         this.catPicture.src = currentCat.src;
     }
     
@@ -130,74 +170,57 @@ var catListView = {
     }
 };
 
+var adminView = {
+
+    init: function() {
+        this.adminForm = document.querySelector('.adminForm');
+
+        this.nameAdmin = document.querySelector('.nameAdmin');
+        this.urlAdmin = document.querySelector('.urlAdmin');
+        this.numberClicksAdmin = document.querySelector('.numberClicksAdmin');
+        
+        this.adminButton = document.querySelector('.adminButton');
+        this.saveButton = document.querySelector('.saveButton');
+        this.cancelButton = document.querySelector('.cancelButton');
+
+        this.adminButton.addEventListener('click', function() {
+            octopus.toggleAdminView();
+        });
+
+        this.saveButton.addEventListener('click', function() {
+            octopus.saveAdminView();
+        });
+
+        this.cancelButton.addEventListener('click', function() {
+            octopus.cancelAdminView();
+        });
+
+        // this.render();
+
+    },
+
+    // render: function() {
+    //     var currentCat = octopus.getCurrentCat();
+   
+    //     this.adminName.value = currentCat.name;
+    //     this.adminUrl.value = currentCat.imgSrc;
+    //     this.adminClickNumber.value = currentCat.clickCount;
+    // },
+
+    show: function() {
+        this.adminForm.style.display = 'block';
+    },
+
+    hide: function() {
+        this.adminForm.style.display = 'none';
+    },
+
+    reset: function() {
+        this.nameAdmin.value = '';
+        this.urlAdmin.value  = '';
+        this.numberClicksAdmin.value  = '';
+    }
+};
+
 octopus.init();
 
-
-// var container = document.querySelector('.container');
-// var count = document.querySelector('.count');
-// var catList = document.createElement('ul');
-// catList.classList.add('catList');
-
-
-
-// var catNames = ['Vasya', 'Grey', 'Kitya', 'Murzik', 'Pushok'];
-// var catImages = ['cat1', 'cat2', 'cat3', 'cat4', 'cat5'];
-// var clickCount = [0, 0, 0, 0, 0];
-
-// for (var i = 0; i < catImages.length; i++) {
-
-//     var catItem = document.createElement('li');
-//     catItem.innerText = `${catNames[i]}`;
-//     catList.appendChild(catItem);
-
-//     catItem.addEventListener('click', (function(iCopy) {
-//         return function() {
-//             container.innerHTML = '';
-//             const signature = document.createElement('p');
-//             signature.classList.add('catName');
-//             signature.innerText = catNames[iCopy];
-//             container.appendChild(signature);
-//             const imgContainer = document.createElement('div');
-//             imgContainer.innerHTML = `<img src="images/${catImages[iCopy]}.jpg" alt="Cat" class="catPicture">`;
-//             container.appendChild(imgContainer);  
-//             const clickMessage = document.createElement('p');
-//             clickMessage.classList.add(`clickMessage${iCopy}`);
-//             clickMessage.innerText = `You clicked this picture ${clickCount[iCopy]} times`;
-//             container.appendChild(clickMessage); 
-//         };
-//     })(i));
-
-//     document.querySelector('.list').append(catList);
-// };
-
-// function initialCat () {
-//     const signature = document.createElement('p');
-//         signature.classList.add('catName');
-//         signature.innerText = catNames[0];
-//         container.appendChild(signature);
-//         const imgContainer = document.createElement('div');
-//         imgContainer.innerHTML = '<img src="images/cat1.jpg" alt="Cat" class="catPicture">';
-//         container.appendChild(imgContainer);  
-//         const clickMessage = document.createElement('p');
-//         clickMessage.classList.add('clickMessage0');
-//         clickMessage.innerText = `You clicked this picture 0 times`;
-//         container.appendChild(clickMessage);
-// }
-
-// initialCat();
-
-// function respondToTheClick(e) {
-//     e.preventDefault();
-//     let catPicture = e.target;
-
-//     for (var i = 0; i < clickCount.length; i++) {
-//         if (catPicture.classList.contains('catPicture') === true && document.querySelector(`.clickMessage${i}`)) {
-//             clickCount[i] = clickCount[i] + 1;
-//             // debugger
-//             var clickMessageI = document.querySelector(`.clickMessage${i}`);
-//             clickMessageI.innerText = `You clicked this picture ${clickCount[i]} times`;
-//         }
-//     }
-// };
-
-// container.addEventListener('click', respondToTheClick);
