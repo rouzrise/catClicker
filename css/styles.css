@@ -52,7 +52,8 @@ h1 {
 
 .catPicture {
     margin-bottom: 20px;
-    height: 400px;
+    /* height: 400px; */
+    width:600px;
 }
 
 .flexContainer {
@@ -98,12 +99,33 @@ ul li:last-of-type,
 .cancelButton,
 .saveButton {
     border-bottom: 1px solid  rgb(11, 121, 14);
+    width: 130px;
 }
 
-ul li:hover {
+.adminButton {
+    background-color: rgb(255, 238, 0);
+    color: black;
+}
+
+.cancelButton{
+    background-color: rgb(255, 72, 0);
+}
+
+
+ul li:hover,
+.saveButton:hover {
     background-color:   rgb(43, 129, 46); 
     color: white;
 }
+
+.adminButton:hover {
+    background-color: rgb(255, 208, 0);
+}
+
+.cancelButton:hover {
+    background-color: rgb(226, 64, 0);
+}
+
 
 .partName {
     color:  rgb(43, 129, 46);
@@ -122,3 +144,35 @@ ul li:hover {
     margin-bottom: 20px;
     margin-left: 0;
 }
+
+.adminGroup {
+    margin-left: 40px;
+    /* display: flex; */
+}
+
+.adminMode,
+.adminButton {
+    margin-left: 85px;
+}
+
+.nameAdmin, 
+.urlAdmin,
+.numberClicksAdmin,
+.saveButton,
+.cancelButton {
+    margin-top: 10px;
+}
+
+.saveButton,
+.cancelButton {
+    margin-left: 85px;
+}
+
+.label {
+    display: inline-block;
+    width: 69px;
+    vertical-align: top;
+    text-align: right;
+    margin-right: 10px;
+    margin-top: 12px;
+   }
