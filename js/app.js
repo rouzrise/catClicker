@@ -84,17 +84,24 @@ var octopus = {
 
     saveAdminView: function() {
     //    debugger
-        model.currentCat.catName = adminView.nameAdmin.value;
+       if (adminView.nameAdmin.value) {
+           model.currentCat.catName = adminView.nameAdmin.value;
+       }
+       else if (adminView.urlAdmin.value) {
         model.currentCat.src = adminView.urlAdmin.value;
+    }
+
+    else if (adminView.numberClicksAdmin.value) {
         model.currentCat.clickCount = adminView.numberClicksAdmin.value;
-        // adminView.reset();
+    }
+        adminView.reset();
         currentCatView.render();
         catListView.render();
-        adminView.reset();
+   
     },
 
     cancelAdminView: function() {
-        adminView.hide();
+        adminView.reset();
     }
 
 
@@ -195,17 +202,7 @@ var adminView = {
             octopus.cancelAdminView();
         });
 
-        // this.render();
-
     },
-
-    // render: function() {
-    //     var currentCat = octopus.getCurrentCat();
-   
-    //     this.adminName.value = currentCat.name;
-    //     this.adminUrl.value = currentCat.imgSrc;
-    //     this.adminClickNumber.value = currentCat.clickCount;
-    // },
 
     show: function() {
         this.adminForm.style.display = 'block';
